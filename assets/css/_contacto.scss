@@ -1,0 +1,137 @@
+@import "variables";
+@import "mixins";
+
+.main-contacto {
+    background-color: $primary-color;
+}
+
+.contacto {
+    display: grid;
+    grid-gap: 3rem;
+    grid-template-areas: "hablemos"
+                         "form"
+                         "visitanos";
+    padding-top: 8rem;
+    &-hablemos {
+        grid-area: hablemos;
+        margin-top: 3rem;
+    }
+    &-form {
+        grid-area: form;
+    }
+    &-visitanos {
+        grid-area: visitanos;
+    }
+    & a {
+        text-decoration: none;
+    }
+}
+.contacto-hablemos-texto {
+    & p:last-child {
+        color: $secondary-color;
+        line-height: 2rem;
+    }
+}
+.contacto-hablemos-botones {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: 600;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    & span {
+        font-size: 0.8rem;
+    }
+    & p {
+        margin: 0;
+    }
+    & a:first-child {
+        @include btn-mixin();
+    }
+    & a:last-child {
+        @include btn-mixin-neon($primary-color, $secondary-color);
+        & span {
+            color: #8a8a8a;
+        }
+    }
+}
+
+.contacto-visitanos {
+    & p{
+        color: #a8a8a8;
+        padding-left: 1.5rem;
+        margin: 0;
+        line-height: 1.75rem;
+    }
+    & p:first-child {
+        color: #fff;
+        font-weight: 600;
+        position: relative;
+        
+        &::before {
+            content: "\F285";
+            font-family: 'bootstrap-icons';
+            font-size: 0.8rem;
+            left: 0;
+            position: absolute;
+            top: 2px;
+        }
+    }
+    & iframe {
+        margin-top: 2rem;
+        // border-radius: 25px;
+        height: 300px;
+    }
+}
+
+.contacto-form {
+    background-color: #fff;
+    // border-radius: 25px;
+    padding: 3rem 2.5rem;
+    & h3 {
+        color: #000;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    & p {
+        line-height: 2rem;
+    }
+    & form {
+        & label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            &::after {
+                color: #ff0000;
+                content: " *";
+            }
+        }
+        // & input {
+        //     padding: 0.8rem 1.5rem;
+        // }
+        & textarea {
+            margin-bottom: 1.5rem;
+            // padding: 0.8rem 1.5rem;
+            resize: none;
+        }
+        & button {
+            @include btn-mixin()
+        }
+    }
+}
+
+@media screen and (min-width: 991px) {
+    .contacto {
+        grid-gap: 5rem;
+        grid-template-areas: "hablemos form"
+                             "visitanos form";
+        row-gap: 0;
+        &-hablemos {
+            margin: 0;
+        }
+        &-visitanos {
+            & iframe {
+                height: 350px;
+            }
+        }
+    }
+}
+

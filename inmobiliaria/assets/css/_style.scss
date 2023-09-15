@@ -1,0 +1,32 @@
+/*--------------------------------------------------------------
+# WELCOME
+--------------------------------------------------------------*/
+.welcome-inmobiliaria {
+    margin: 0 auto;
+    max-width: 800px;
+    position: relative;
+    &::after {
+        bottom: -75px;
+        color: $amarillo-inmobiliaria;
+        content: "\F8C6";
+        font-family: 'bootstrap-icons';
+        font-size: 10rem;
+        opacity: 0.15;
+        position: absolute;
+        right: 50px;
+        text-shadow: 0 0 30px #022b63;
+        z-index: -1;
+    }
+}
+
+/*--------------------------------------------------------------
+# MEDIAS
+--------------------------------------------------------------*/
+@media screen and (max-width: 767px) {
+    .welcome-inmobiliaria {
+        &::after {
+            right: 50%;
+            transform: translateX(50%);
+        }
+    }
+}

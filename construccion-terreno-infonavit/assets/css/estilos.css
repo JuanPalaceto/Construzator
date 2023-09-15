@@ -1,0 +1,19 @@
+.banner .bg-image img {
+  bottom: -8%;
+  left: 10%;
+  max-width: 250px;
+  min-width: 200px;
+  position: absolute;
+  width: 25vw;
+  z-index: 2;
+}
+
+@media screen and (max-width: 767px) {
+  .banner .bg-image img {
+    left: 50%;
+    max-width: 225px;
+    min-width: 175px;
+    transform: translateX(-50%);
+    width: 30vw;
+  }
+}/*# sourceMappingURL=estilos.css.map */

@@ -1,0 +1,23 @@
+# No estoy seguro de como, pero funciona -- añadido el 05/09/2023 por JPala
+# Quita los .html del final de las páginas pero si se pone pues si redirije a ellos
+RewriteEngine on
+
+# Remove .html (or htm) from visible URL (permanent redirect)
+RewriteCond %{REQUEST_URI} ^/(.+)\.html?$ [nocase]
+RewriteRule ^ /%1 [L,R=301]
+
+# Quietly point back to the HTML file (temporary/undefined redirect):
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [END]
+
+# Esto es para forzar el https --añadido el 05/09/2023 por JPala
+RewriteEngine On   
+RewriteCond %{HTTPS} !=on   
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]  
+
+# Esto fuerza al navegador a actualizar las advertencias "no seguras" a el https seguro
+RewriteOptions inherit   
+RewriteEngine on   
+
+Header set content-Security-Policy: upgrade-insecure-requests  

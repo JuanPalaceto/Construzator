@@ -1,0 +1,23 @@
+@import "variables";
+@mixin btn-mixin ($color: $rojo-zator, $hover-color: $rojo-zator-hover){
+    background-color: $color;
+    border: 2px solid $color;
+    border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+    min-width: 160px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease-in;
+    &:hover {
+        background-color: $hover-color;
+        border: 2px solid $hover-color;
+    }
+}
+
+@mixin btn-mixin-neon ($color: $secondary-color, $background: $rojo-zator){
+    @include btn-mixin(transparent, $background);
+    border-color: $background;
+    &:hover {
+        color: $color;
+    }
+}

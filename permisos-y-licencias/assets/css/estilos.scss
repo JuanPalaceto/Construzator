@@ -1,0 +1,124 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+// @import url('../../../assets/css/variables');
+
+// LOGO
+.banner {
+    & .bg-image {
+        & img {
+            bottom: -15%;
+            left: 10%;
+            max-width: 150px;
+            // min-width: 200px;
+            position: absolute;
+            width: 15vw;
+            z-index: 2;
+        }
+    }
+}
+.welcome-permisos {
+    margin: 0 auto;
+    // max-width: 800px;
+    position: relative;
+    & .lista-permisos {
+        padding-top: 1rem;
+        & h5 {
+            font-family: "Poppins", sans-serif;
+        }
+        & i {
+            color: #6b6d70;
+            // font-size: 8rem;
+            font-size: clamp(96px, 8vw, auto);;
+            text-shadow: 0 0 10px #3e3e3f;
+        }
+    }
+}
+.lista-servicios {
+    & span {
+        font-weight: 600;
+        text-transform: uppercase;
+        &::before {
+            content: "\f058";
+            font: var(--fa-font-regular);
+            padding-right: 0.5rem;
+        }
+        &:not(:last-child) {
+            padding-bottom: 0.5rem;
+        }
+    }
+    & i {
+        // color: #ffffff;
+        // font-size: 8rem;
+        font-size: clamp(64px, 5vw, 144px);;
+        text-shadow: 0 0 50px #857f7f;
+    }
+}
+// .permisos {
+//     // background: $primary-color;
+// }
+
+// QUERIES
+@media screen and (max-width: 767px){
+    .welcome-permisos {
+        &::after {
+            right: 50%;
+            transform: translateX(50%);
+        }
+    }
+    .banner {
+        & .bg-image {
+            height: 300px;
+            & img {
+                bottom: -10%;
+                left: 50%;
+                max-width: 125px;
+                min-width: 75px;
+                transform: translateX(-50%);
+                width: 25vw;
+            }
+        }
+    }
+    .lista-servicios {
+        position: relative;
+        & span {
+            padding-bottom: 0.5rem;
+        }
+        & .icon {
+            opacity: 0.10;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            &-licencias {
+                display: none;
+                right: 12%;
+            }
+            &-certificados {
+                display: none;
+                left: 10%;
+            }
+            &-firma {
+                // right: 8%;
+                opacity: 1;
+                top: 20%;
+                right: 10%;
+            }
+            &-ciudad {
+                display: none;
+                left: 10%;
+            }
+            &-llave {
+                display: none;
+                right: 10%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px){
+    .lista-servicios {
+        & .icon {
+            &-firma {
+                display: none;
+            }
+        }
+    }
+}
