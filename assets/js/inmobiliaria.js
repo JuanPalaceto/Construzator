@@ -1,172 +1,53 @@
 /*********************** Generador contenido dinámicamente ***********************/
-// Igual podría investigar como llevarme esto a otro archivo (o una bd más adelante...)
-const proyectos_casas = [
-    {
-        id:"casa-1",
-        nombre: "CASA COL. MODERNA",
-        src: "assets/img/CASA COL. MODERNA/pre venta (1).png",
-        precio: "",
-        ubicacion: "Margen del Río, Moderna, 87134 Cd Victoria, Tamps.",
-        lote: "desde 130m2 (6.5X20)",
-        construccion: "",
-        habitaciones: "2 habitaciones",
-        banos: "1 baño",
-        caracteristicas: [
-            "2 habitaciones",
-            "Sala",
-            "Cocina",
-            "Comedor",
-            "Patio frontal",
-            "Baño"
-        ],
-        urls: [
-            "assets/img/CASA COL. MODERNA/pre venta (1).png",
-        ]
+/* Genera la galería inicial */
+$.ajax({
+    type: 'POST',
+    url: '../Scripts/galeriaInmobiliaria.php',
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function(res) {
+        insertaProyectos(res.Casas, "contenido-casas");
+        insertaProyectos(res.Terrenos, "contenido-terrenos");
+        
+        // El listener hace que cada que se mueva la pantalla se ajuste el height de cada div
+        // Está mejor explicado en el de diseño
+        window.addEventListener('resize', () => {
+            const container = document.querySelectorAll('.gallery-item-container');
+            container.forEach(element => {
+                const width = element.offsetWidth;
+
+                // Calcular el height (el porcentaje lo saqué de hacerlo manualmente)
+                const height = (width * 83.8265) / 100;
+
+                // Se coloca el height adecuado
+                element.style.height = `${height}px`;
+            });
+        });
+
+        // Ejecuta el evento al comenzar
+        window.dispatchEvent(new Event('resize'));
     },
-    {
-        id:"casa-2",
-        nombre: "CASA VIENTO HUASTECO",
-        src: "assets/img/CASA VIENTO HUASTECO/VENTA DE CASA!.png",
-        precio: "$1,250,000.00",
-        ubicacion: "Viento Huasteco, esquina con calle Cdad. Victoria y Calle Estado de Veracruz, frente al área verde.",
-        lote: "126.89m2",
-        construccion: "106m2",
-        habitaciones: "3 habitaciones",
-        banos: "2 baños",
-        caracteristicas: [
-            "3 habitaciones",
-            "Sala",
-            "Comedor",
-            "Cocina",
-            "Cochera",
-            "2 baños",
-        ],
-        urls: [
-            "assets/img/CASA VIENTO HUASTECO/VENTA DE CASA!.png",
-            "assets/img/CASA VIENTO HUASTECO/7b0f9381-8362-40eb-9449-27c92f2fe5ec.jpg",
-            "assets/img/CASA VIENTO HUASTECO/202f3741-95e5-48b5-8a7f-2d535e421e87.jpg",
-            "assets/img/CASA VIENTO HUASTECO/2075d9d7-663f-40e2-a1ea-4b68da9cfe2a.jpg",
-            "assets/img/CASA VIENTO HUASTECO/d2aac6ba-d392-4149-bf3b-33b87e50c5c2.jpg",
-        ]
-    },
-    {
-        id:"casa-3",
-        nombre: "FRACCIONAMIENTO JARDINES DEL SAUCE",
-        src: "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/1.png",
-        precio: "$1,800,000.00",
-        ubicacion: "Lic. Ciro de La Garza 959, Sin Nombre de Col 7, 87030 Cd Victoria, Tamps.",
-        lote: "desde 144m2 (8x18)",
-        construccion: "140m2",
-        habitaciones: "3 habitaciones",
-        banos: "3 1/2 baños",
-        caracteristicas: [
-            "Barda perimetral",
-            "Acceso controlado",
-            "Instalaciones eléctricas subterráneas",
-            "Área verde",
-            "Alberca con salón",
-            "Calles pavimentadas",
-            "Juegos infantiles",
-            "Asadores y palapa común",
-            "Régimen de condominio",
-            "Lotes desde 144m2 (8x18)",
-            "Construcción 140m2",
-            "2 habitaciones en planta alta",
-            "1 habitación en planta baja",
-            "Sala",
-            "Cocina",
-            "Comedor",
-            "Patio frontal",
-            "Cochera para dos vehículos",
-            "3 1/2 baños",
-            "Pasillo de servicio",
-            "Área de lavandería techada",
-            "Preparación para minisplits",
-            "Balcón"
-        ],
-        urls: [
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/1.png",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/4.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/6.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/7.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/9.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/11.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/12.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/12.png",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/13.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/14.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/15.jpeg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/317719421_5446418665487688_5453997659802290101_n.jpg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/WhatsApp Image 2023-05-16 at 10.36.38.jpeg",
-            "assets/img/FRACCIONAMIENTO JARDINES DEL SAUCE/WhatsApp Image 2023-05-16 at 10.36.39.jpeg",
-        ]
-    },
-]
+    error: function(xhr, status, error) {
+        console.error('AJAX request failed:', status, error);
+    }
+});
 
-const proyectos_terrenos = [
-    {
-        id:"terreno-1",
-        nombre: "PEDREGAL",
-        src: "assets/img/PEDREGAL/342729176_783125086583308_6161645058872096818_n.jpg",
-        precio: "$560,000.00",
-        ubicacion: "Lib. Guadalupe Victoria 925, 87084 Tamps.",
-        lote: "200m2",
-        caracteristicas: [
-            "Barda perimetral a 2.5 mts.",
-            "Acceso controlado",
-            "Instalaciones eléctricas subterráneas",
-            "Área verde",
-            "Alberca con salón",
-            "Calles pavimentadas",
-            "Juegos infantiles",
-            "Circuito de cámaras",
-            "Asadores y palapa común",
-            "Régimen de condominio"
-        ],
-        urls: [
-            "assets/img/PEDREGAL/342729176_783125086583308_6161645058872096818_n.jpg",
-            "assets/img/PEDREGAL/Diseno sin titulo (22).png",
-            "assets/img/PEDREGAL/WhatsApp Image 2022-12-09 at 11.05.04 AM (1).jpeg",
-            "assets/img/PEDREGAL/WhatsApp Image 2022-12-09 at 11.05.04 AM.jpeg",
-            "assets/img/PEDREGAL/WhatsApp Image 2022-12-09 at 11.05.05 AM.jpeg",
-        ]
-    },
-]
-
-const proyectos_arrays = {
-    proyectos_casas,
-    proyectos_terrenos
-};
-
-// Para ajustar la altura
-// YA NO SE USA, CREO
-const mideHeights = (elementos) => {
-    let minHeight = 9999;
-
-    elementos.forEach((item) => {
-        const infoHeight = item.offsetHeight;
-
-        if (infoHeight < minHeight) {
-            minHeight = infoHeight;
-        }
-    });
-
-    elementos.forEach((item) => {
-        item.style.height = `${minHeight}px`;
-    })
-}
-
-const insertaProyectos = (array, proyectos, id) => {
+const insertaProyectos = (array, idContainer) => {
     // Obtiene el div que dejé en el html donde irá todo
-    const contenido = document.getElementById(id);
+    const contenido = document.getElementById(idContainer);
 
-    proyectos.forEach(proyecto => {
+    array.forEach(proyecto => {        
         // Aquí se crean los componentes y se anidan (no tocar esto por las clases !!)
         // Esto es hasta las imagenes
         const galleryItemContainer = document.createElement("div");
         galleryItemContainer.classList.add("gallery-item-container", "btn-lightbox");
         galleryItemContainer.setAttribute("id-proyecto", proyecto.id);
-        galleryItemContainer.setAttribute("data-array", array);
+        // galleryItemContainer.setAttribute("data-array", array);
+
+        // Añade la función al botón
+        galleryItemContainer.addEventListener('click', event => {
+            handleButtonClick(event, proyecto.id, idContainer);
+        });
 
         const img = document.createElement("img");
         img.src = proyecto.src;
@@ -182,7 +63,7 @@ const insertaProyectos = (array, proyectos, id) => {
         h4.textContent = proyecto.nombre;
         h4.classList.add("btn-lightbox");
         h4.setAttribute("id-proyecto", proyecto.id);
-        h4.setAttribute("data-array", array);
+        // h4.setAttribute("data-array", array);
 
         const h5 = document.createElement("h5");
         h5.textContent = proyecto.precio;
@@ -201,38 +82,51 @@ const insertaProyectos = (array, proyectos, id) => {
     });
 }
 
-insertaProyectos("proyectos_casas", proyectos_casas, "contenido-casas");
-insertaProyectos("proyectos_terrenos", proyectos_terrenos, "contenido-terrenos");
-
 /*********************** GLIGHTBOX ***********************/
 /* Contenido de lightbox */
 // Función genérica para manejar el clic en cualquier botón
-const handleButtonClick = (event, array) => {
+const handleButtonClick = (event, idProyecto, tipoPropiedad) => {
+    let tipo = 0;
+    if (tipoPropiedad.includes('casas')) {
+        tipo = 1;
+    } else {
+        tipo = 2;
+    }
+
+    const obj = {
+        idProyecto: idProyecto,
+        tipo: tipo
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '../Scripts/traeArrayImagenes.php',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(res) {
+            creaGLightBox(res);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX request failed:', status, error);
+        }
+    });
+}
+
+const creaGLightBox = (datos) => {
     const modal = document.createElement("div");
     modal.classList.add("gallery-modal");
-
-    /*const arrayName = button.getAttribute('data-array');*/
-    const buttonId = event.target;
-    const proyectoId = buttonId.getAttribute("id-proyecto");
-
-    // Encuentra el índice según el id de cada elementos
-    const index = array.findIndex(proyecto => proyecto.id === proyectoId);
-
-    // Si el índice no existe en el Array, entonces no existe ese elemento, por lo que detiene la ejecución y básicamente no hace nada el botón
-    if (index === -1) {
-        return;
-    }
 
     // Crear la estructura de la galería, los array
     // Primero crear el banner
     const galleryItemBanner = document.createElement("div");
     galleryItemBanner.classList.add("gallery-item-banner");
-    galleryItemBanner.style.backgroundImage = `url("${array[index].src}")`;
+    galleryItemBanner.style.backgroundImage = `url("${datos.src}")`;
 
     const img = document.createElement("img");
     img.classList.add("gallery-item-banner-img");
-    img.src = array[index].src;
-    img.alt = array[index].nombre;
+    img.src = datos.src;
+    img.alt = datos.nombre;
 
     galleryItemBanner.appendChild(img);
 
@@ -241,43 +135,43 @@ const handleButtonClick = (event, array) => {
     galleryItemInfo.classList.add("gallery-item-info");
 
     const title = document.createElement("h2");
-    title.textContent = array[index].nombre;
+    title.textContent = datos.nombre;
 
     const ubicacion = document.createElement("p");
-    ubicacion.textContent = array[index].ubicacion;
+    ubicacion.textContent = datos.ubicacion;
     ubicacion.classList.add("lightbox-ubi");
 
     const precio = document.createElement("p");
-    precio.textContent = array[index].precio;
+    precio.textContent = datos.precio;
     precio.classList.add("lightbox-precio");
 
     // Las caracteristicas a resaltar
     const highlights = document.createElement("ul");
     highlights.classList.add("lightbox-highlights");
-    if (array[index].lote) {
+    if (datos.lote) {
         const lote = document.createElement("li");
-        lote.textContent = array[index].lote;
+        lote.textContent = datos.lote;
         lote.classList.add("lightbox-highlights-area");
         highlights.appendChild(lote);
     }
 
-    if (array[index].construccion) {
+    if (datos.construccion) {
         const construccion = document.createElement("li");
-        construccion.textContent = array[index].construccion;
+        construccion.textContent = datos.construccion;
         construccion.classList.add("lightbox-highlights-building");
         highlights.appendChild(construccion);
     }
 
-    if (array[index].habitaciones) {
+    if (datos.habitaciones) {
         const habitaciones = document.createElement("li");
-        habitaciones.textContent = array[index].habitaciones;
+        habitaciones.textContent = datos.habitaciones;
         habitaciones.classList.add("lightbox-highlights-rooms");
         highlights.appendChild(habitaciones);
     }
 
-    if (array[index].banos) {
+    if (datos.banos) {
         const banos = document.createElement("li");
-        banos.textContent = array[index].banos;
+        banos.textContent = datos.banos;
         banos.classList.add("lightbox-highlights-restrooms");
         highlights.appendChild(banos);
     }
@@ -286,11 +180,13 @@ const handleButtonClick = (event, array) => {
     const contenedorCaracteristicas = document.createElement("div");
     contenedorCaracteristicas.classList.add("lightbox-caracteristicas");
     const caracteristicas = document.createElement("ul");
-    array[index].caracteristicas.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        caracteristicas.appendChild(li);
-    });
+    if(datos.caracteristicas) {
+        datos.caracteristicas.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            caracteristicas.appendChild(li);
+        });
+    }
     const descripcion = document.createElement("h3");
     descripcion.textContent = "Descripción";
     descripcion.classList.add("lightbox-subtitle")
@@ -306,18 +202,18 @@ const handleButtonClick = (event, array) => {
 
     // Esto es para generar la galería interna
     let contador = 1;
-    array[index].urls.forEach(item => {
+    datos.urls.forEach(item => {
         const galleryItemsCol = document.createElement("div");
         galleryItemsCol.classList.add("col-sm-6", "col-md-4", "col-12", "d-flex", "flex-column", "justify-content-end");
 
         const anchor = document.createElement("a");
         // anchor.href = `${item}`;
-        anchor.id = `${array[index].nombre}-${contador}`;
+        anchor.id = `${datos.nombre}-${contador}`;
         anchor.classList.add("glightbox5");
 
         const imgs = document.createElement("img");
         imgs.src = item;
-        imgs.alt = `${array[index].nombre}-${contador}`;
+        imgs.alt = `${datos.nombre}-${contador}`;
 
         anchor.appendChild(imgs)
         galleryItemsCol.appendChild(anchor);
@@ -326,7 +222,7 @@ const handleButtonClick = (event, array) => {
         // IIFE - Immediately Invoked Function Expression) -> Se llaman así porque se invocan inmediatamente después de crearse.
         anchor.addEventListener('click', (function(contador) { // En vez de añadir la acción directamente, se crea una función anónima la cual retorna otra función anónima, que será finalmente la que irá al listener. Esta función recibe de parametro el contador y lo "aisla" dentro de esta misma función.
             return function(event) { // Esta función retornada es la que finalmente se vinculará al listener de cada anchor, en este caso, imagenes.
-                lightbox.goToSlide(contador); // Esto es del lightbox.
+                instancia.goToSlide(contador); // Esto es del lightbox.
             };
         })(contador)); // Se invoca la función inmediatamente, es decir que se crea el listener con la función que creé. Esta es única y por eso contador mantiene su valor actual
 
@@ -346,18 +242,24 @@ const handleButtonClick = (event, array) => {
     modal.appendChild(galleryItemBanner);
     modal.appendChild(galleryItemInfo);
 
-    /* CONFIGURACIONES DE GLIGHTBOX */
-    // Esta parte es la del lightbox realmente
+    const instancia = gLightBox(datos, modal);
+
+    instancia.open();
+}
+
+/* CONFIGURACIONES DE GLIGHTBOX */
+// Esta parte es la del lightbox realmente
+const gLightBox = (obj, contenido) => {
     contadorLightbox = 0;
     const lightbox = GLightbox({
         elements: [
             {
-                'content': modal
+                'content': contenido
             },
-            ...array[index].urls.map(url => ({
+            ...obj.urls.map(url => ({
                 'href': url,
                 'type': 'image',
-                'alt': `${array[index].nombre}-${contadorLightbox++}`
+                'alt': `${obj.nombre}-${contadorLightbox++}`
             }))
         ],
         preload: false,
@@ -368,34 +270,5 @@ const handleButtonClick = (event, array) => {
         lightbox.destroy();
     });
 
-    // abre el 'modal' al final de todo
-    lightbox.open();
+    return lightbox;
 }
-
-// Para abrir/construir los slides al hacer click en la imagen o el titulo
-const buttons = document.querySelectorAll('.btn-lightbox');
-// Agrega el evento de clic a cada botón
-buttons.forEach(button => {
-    const arrayName = button.getAttribute('data-array');
-
-    button.addEventListener('click', event => {
-        handleButtonClick(event, proyectos_arrays[arrayName]);
-    });
-});
-
-// El listener hace que cada que se mueva la pantalla se ajuste el height de cada div
-window.addEventListener('resize', () => {
-    const container = document.querySelectorAll('.gallery-item-container');
-    container.forEach(element => {
-        const width = element.offsetWidth;
-
-        // Calcular el height (el porcentaje lo saqué de hacerlo manualmente)
-        const height = (width * 83.8265) / 100;
-
-        // Se coloca el height adecuado
-        element.style.height = `${height}px`;
-    });
-});
-
-// Ejecuta el evento al comenzar
-window.dispatchEvent(new Event('resize'));
